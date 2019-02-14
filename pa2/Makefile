@@ -17,7 +17,8 @@ $(TARGET): $(OBJS)
 	$(GCC) $(CFLAGS) $(TESTFLAGS) -c $*.c
 
 testmemory: $(TARGET)
-	$(VALGRIND)=./valgrind.log ./$(TARGET) original/lorum lorum.count lorum.tree lorum.code lorum.hbt
+	$(VALGRIND)=./valgrinda.log ./$(TARGET) -a examples/15.b 15sa.b
+	$(VALGRIND)=./valgrindl.log ./$(TARGET) -l examples/15.b 15sl.b
 
 testall: test1 test2 test3 test4 test5
 
@@ -46,4 +47,4 @@ test5: $(TARGET)
 	./$(TARGET) -l examples/1000000.b 1000000sl.b
 
 clean:
-	rm -f $(OBJS) $(TARGET) *.b
+	rm -f $(OBJS) $(TARGET) *.b *.log

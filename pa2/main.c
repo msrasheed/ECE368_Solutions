@@ -6,6 +6,7 @@
 
 void printArray(long * arr, int size);
 void printLinkArr(Node * head);
+void destroyNodes(Node * node);
 
 int main(int argc, char ** argv)
 {
@@ -26,6 +27,7 @@ int main(int argc, char ** argv)
     //printArray(arr, size);
     fprintf(stdout, "\n%E\n\n", comps);
     Array_Save_To_File(argv[3], arr, size);
+    free(arr);
   }
   else if (argv[1][1] == 'l')
   {
@@ -34,7 +36,15 @@ int main(int argc, char ** argv)
     head = List_Shellsort(head, &n_comp);
     fprintf(stdout, "\n%E\n\n", n_comp);
     List_Save_To_File(argv[3], head);
+    destroyNodes(head);
   }
+}
+
+void destroyNodes(Node * node)
+{
+  if (node == NULL) return;
+  destroyNodes(node->next);
+  free(node);
 }
 
 void printArray(long * arr, int size)

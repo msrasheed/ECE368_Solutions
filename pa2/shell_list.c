@@ -34,6 +34,7 @@ Node *List_Load_From_File(char *filename)
     }
   }
   n->next = NULL;
+  fclose(infptr);
   return head;
 }
 
@@ -47,6 +48,7 @@ int List_Save_To_File(char *filename, Node *list)
     list = list->next;
     count++;
   }
+  fclose(outfptr);
   return count;
 }
 
@@ -142,6 +144,13 @@ List * Create_Subarrays(Node * head, long k, int size)
   return subHead;
 }
 
+void destroyLists(List * list)
+{
+  if (list == NULL) return;
+  destroyLists(list->next);
+  free(list);
+}
+
 Node * mergeSubarrays(List * list)
 {
   Node * head = list->node;
@@ -230,10 +239,12 @@ Node *List_Shellsort(Node *list, double *n_comp)
     // printSubList(subHead);
     // fprintf(stdout, "\n\n");
     head = mergeSubarrays(subHead);
+    destroyLists(subHead);
     // printLinkArr1(head);
   }
   head = insertionListSort(head, &comps);
   //printLinkArr1(head);
   *n_comp = comps;
+  free(sortSeq);
   return head;
 }
