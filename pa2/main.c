@@ -30,7 +30,10 @@ int main(int argc, char ** argv)
   else if (argv[1][1] == 'l')
   {
     Node * head = List_Load_From_File(argv[2]);
-    printLinkArr(head);
+    double n_comp;
+    head = List_Shellsort(head, &n_comp);
+    fprintf(stdout, "\n%E\n\n", n_comp);
+    List_Save_To_File(argv[3], head);
   }
 }
 
