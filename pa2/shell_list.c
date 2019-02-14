@@ -81,6 +81,59 @@ void goAhead(Node ** n, Node ** p, long num)
   }
 }
 
+void destroyLists(List * list)
+{
+  if (list == NULL) return;
+  destroyLists(list->next);
+  free(list);
+}
+
+List * Create_Subarrays2(Node * head, long k)
+{
+  //fprintf(stdout, "\n\n");
+  //printLinkArr1(head);
+  List * newList = malloc(sizeof(List));
+  List * nodeTracker = malloc(sizeof(List));
+  nodeTracker->node = head;
+  newList->node = head;
+  head = head->next;
+  List * nl = newList;
+  List * ntl = nodeTracker;
+  int i;
+  for (i = 0; i < k - 1; i++)
+  {
+    List * nl2 = malloc(sizeof(List));
+    List * ntl2 = malloc(sizeof(List));
+    nl2->node = head;
+    ntl2->node = head;
+    head = head->next;
+    nl->next = nl2;
+    nl = nl->next;
+    ntl->next = ntl2;
+    ntl = ntl->next;
+  }
+  nl->next = NULL;
+  ntl->next = NULL;
+  nl = newList;
+  ntl = nodeTracker;
+  while(head != NULL)
+  {
+    ntl->node->next = head;
+    head = head->next;
+    ntl->node = ntl->node->next;
+    ntl = ntl->next;
+    if (ntl == NULL) ntl = nodeTracker;
+  }
+  ntl = nodeTracker;
+  while (ntl != NULL)
+  {
+    ntl->node->next = NULL;
+    ntl = ntl->next;
+  }
+  destroyLists(nodeTracker);
+  return newList;
+}
+
 List * Create_Subarrays(Node * head, long k, int size)
 {
   long origk = k;
@@ -142,13 +195,6 @@ List * Create_Subarrays(Node * head, long k, int size)
   nl2->node = head;
   nl->next = nl2;
   return subHead;
-}
-
-void destroyLists(List * list)
-{
-  if (list == NULL) return;
-  destroyLists(list->next);
-  free(list);
 }
 
 Node * mergeSubarrays(List * list)
@@ -225,9 +271,9 @@ Node *List_Shellsort(Node *list, double *n_comp)
     long nsort = sortSeq[i];
 
     //create subarrays
-    List * subHead = Create_Subarrays(head, nsort, size);
+    List * subHead = Create_Subarrays2(head, nsort);//, size);
     // fprintf(stdout, "before\n");
-    // printSubList(subHead);
+    //printSubList(subHead);
     List * sl = subHead;
     while (sl != NULL)
     {
