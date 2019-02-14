@@ -4,4 +4,3 @@
 long *Generate_2p3q_Seq(int length, int *seq_size);
 
 #endif
-
