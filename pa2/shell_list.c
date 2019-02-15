@@ -15,8 +15,13 @@ void printLinkArr1(Node * head)
 Node *List_Load_From_File(char *filename)
 {
   FILE * infptr = fopen(filename, "r");
+  if (infptr == NULL)
+  {
+    return NULL;
+  }
   long read;
   int num = fread(&read, sizeof(long), 1, infptr);
+  if (num == 0) return NULL;
   Node * head = malloc(sizeof(Node));
   head->value = read;
   Node * n;
@@ -41,6 +46,11 @@ Node *List_Load_From_File(char *filename)
 int List_Save_To_File(char *filename, Node *list)
 {
   FILE * outfptr = fopen(filename, "w");
+  if (list == NULL)
+  {
+    fclose(outfptr);
+    return 0;
+  }
   int count = 0;
   while (list != NULL)
   {
@@ -254,6 +264,11 @@ Node * insertionListSort(Node * head, double * comps)
 
 Node *List_Shellsort(Node *list, double *n_comp)
 {
+  if (list == NULL)
+  {
+    *n_comp = 0;
+    return NULL;
+  }
   int seq_size;
   int size = 0;
   Node * head = list;

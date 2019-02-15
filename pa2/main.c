@@ -20,6 +20,10 @@ int main(int argc, char ** argv)
   if (argv[1][1] == 'a')
   {
     long * arr = Array_Load_From_File(argv[2], &size);
+    if (arr == NULL)
+    {
+      return EXIT_FAILURE;
+    }
     //printArray(arr, size);
     //fprintf(stdout, "%d\n\n", size);
     double comps;
@@ -37,8 +41,9 @@ int main(int argc, char ** argv)
     head = List_Shellsort(head, &n_comp);
     fprintf(stdout, "\n%E\n\n", n_comp);
     List_Save_To_File(argv[3], head);
-    destroyNodes(head);
+    if (head != NULL) destroyNodes(head);
   }
+  return EXIT_SUCCESS;
 }
 
 void destroyNodes(Node * node)

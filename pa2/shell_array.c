@@ -6,10 +6,18 @@
 long *Array_Load_From_File(char *filename, int *size)
 {
   FILE * infptr = fopen(filename, "r");
+  if (infptr == NULL)
+  {
+    return NULL;
+  }
   fseek(infptr, 0, SEEK_END);
   *size = ftell(infptr) / sizeof(long);
   fseek(infptr, 0, SEEK_SET);
   long * nums = malloc(sizeof(long) * (*size));
+  if (nums == NULL)
+  {
+    return NULL;
+  }
   fread(nums,  sizeof(long), *size, infptr);
   fclose(infptr);
   return nums;
@@ -39,6 +47,11 @@ void printArray1(long * arr, int size, int nsort)
 
 void Array_Shellsort(long *array, int size, double *n_comp)
 {
+  if (size == 0)
+  {
+    *n_comp = 0;
+    return;
+  }
   int seq_size;
   long * sortSeq = Generate_2p3q_Seq(size, &seq_size);
   double comps = 0;
