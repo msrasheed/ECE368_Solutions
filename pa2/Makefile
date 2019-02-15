@@ -3,7 +3,7 @@ GCC = gcc
 CFLAGS = -g -std=c99 -Wall -Wshadow -Wvla -Werror -pedantic
 CC = $(GCC) $(CFLAGS)
 
-SRCS = main.c sequence.c shell_array.c shell_list.c
+SRCS = pa2.c sequence.c shell_array.c shell_list.c
 
 OBJS = $(SRCS:%.c=%.o)
 VALGRIND = valgrind --tool=memcheck --verbose --log-file
