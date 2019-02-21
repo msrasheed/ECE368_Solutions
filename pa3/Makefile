@@ -17,7 +17,7 @@ $(TARGET): $(OBJS)
 	$(GCC) $(CFLAGS) $(TESTFLAGS) -c $*.c
 
 testmemory: $(TARGET)
-	$(VALGRIND)=./valgrinda.log ./$(TARGET) -a examples/15.b 15sa.b
+	$(VALGRIND)=./valgrind.log ./$(TARGET) examples/5.txt 5.pre 5.delay
 
 testall: test1 test2
 

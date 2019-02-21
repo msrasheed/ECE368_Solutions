@@ -12,6 +12,8 @@ Node * load_tree(FILE * infptr)
     Node * leaf = create_leaf(firstChar - 48, cap);
     ListNode * head = create_ListNode(leaf);
 
+    firstChar = fgetc(infptr);
+
     while (firstChar != -1)
     {
         if (firstChar == 40)

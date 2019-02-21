@@ -15,7 +15,6 @@ int main(int argc, char ** argv)
         fprintf(stderr, "Input file doesn't exist\n");
         return EXIT_FAILURE;
     }
-
     Node * tree = load_tree(inptr);
     fclose(inptr);
 
