@@ -28,7 +28,7 @@ test1: $(TARGET)
 	./$(TARGET) -a examples/15.b 15sa.b
 	diff examples/15sa.b 15sa.b
 
-test1l:
+test1l: $(TARGET)
 	./$(TARGET) -l examples/15.b 15sl.b
 	diff examples/15sl.b 15sl.b
 
@@ -36,26 +36,26 @@ test2: $(TARGET)
 	./$(TARGET) -a examples/1000.b 1000sa.b
 	diff examples/1000sa.b 1000sa.b
 
-test2l:
+test2l: $(TARGET)
 	./$(TARGET) -l examples/1000.b 1000sl.b
 	diff examples/1000sl.b 1000sl.b
 
 test3: $(TARGET)
 	./$(TARGET) -a examples/10000.b 10000sa.b
 
-test3l:
+test3l: $(TARGET)
 	./$(TARGET) -l examples/10000.b 10000sl.b
 
 test4: $(TARGET)
 	./$(TARGET) -a examples/100000.b 100000sa.b
 
-test4l:
+test4l: $(TARGET)
 	./$(TARGET) -l examples/100000.b 100000sl.b
 
 test5: $(TARGET)
 	./$(TARGET) -a examples/1000000.b 1000000sa.b
 
-test5l:
+test5l: $(TARGET)
 	./$(TARGET) -l examples/1000000.b 1000000sl.b
 
 clean:

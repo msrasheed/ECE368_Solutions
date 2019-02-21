@@ -17,6 +17,7 @@ int main(int argc, char ** argv)
   }
 
   int size;
+  // to process as an array
   if (argv[1][1] == 'a')
   {
     long * arr = Array_Load_From_File(argv[2], &size);
@@ -33,6 +34,7 @@ int main(int argc, char ** argv)
     Array_Save_To_File(argv[3], arr, size);
     free(arr);
   }
+  //to process as a linked list
   else if (argv[1][1] == 'l')
   {
     Node * head = List_Load_From_File(argv[2]);
@@ -48,8 +50,13 @@ int main(int argc, char ** argv)
 
 void destroyNodes(Node * node)
 {
-  if (node == NULL) return;
-  destroyNodes(node->next);
+  Node * n = node->next;
+  while (n != NULL)
+  {
+    free(node);
+    node = n;
+    n = node->next;
+  }
   free(node);
 }
 

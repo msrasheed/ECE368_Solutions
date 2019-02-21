@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+//power function that is recursive, similar to the one shown in class
 long my_pow(int base, int exp)
 {
   if (exp == 0)
@@ -21,6 +22,7 @@ long my_pow(int base, int exp)
   return temp;
 }
 
+//a sort function to sort the generated sequence using insertion sort
 void sortSeq(long * seq, int size)
 {
   int i;
@@ -49,10 +51,12 @@ void sortSeq(long * seq, int size)
   }
 }
 
+//generates the sequence based on pascals triangle
 long * Generate_2p3q_Seq(int length, int *seq_size)
 {
   int numRows = 1;
   int dummyLen = length;
+  //guess depth of triangle
   while (dummyLen > 1)
   {
     dummyLen /= 2;
@@ -60,14 +64,19 @@ long * Generate_2p3q_Seq(int length, int *seq_size)
   }
   int i;
   int countGuess = 0;
+  //calcs number of elements in triangle with n rows
   for (i = 1; i <= numRows; i++)
   {
     countGuess += i;
   }
-  //fprintf(stdout, "%d\n", countGuess);
   long * seq = malloc(sizeof(long) * countGuess);
+  if (seq == NULL)
+  {
+    return NULL;
+  }
   int index = 0;
   int j;
+  //fill in array moving down pascals triangle
   for (i = 1; i <= numRows; i++)
   {
     for (j = 0; j < i; j++)
@@ -81,7 +90,12 @@ long * Generate_2p3q_Seq(int length, int *seq_size)
     }
   }
   *seq_size = index;
+  //resize array because probably too big
   seq = realloc(seq, sizeof(long) * (*seq_size));
+  if (seq == NULL)
+  {
+    return NULL;
+  }
   sortSeq(seq, *seq_size);
   return seq;
 }

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+// load long integers into array from file
 long *Array_Load_From_File(char *filename, int *size)
 {
   FILE * infptr = fopen(filename, "r");
@@ -23,6 +24,7 @@ long *Array_Load_From_File(char *filename, int *size)
   return nums;
 }
 
+// save long integer array to file
 int Array_Save_To_File(char *filename, long *array, int size)
 {
   FILE * outfptr = fopen(filename, "w");
@@ -31,6 +33,7 @@ int Array_Save_To_File(char *filename, long *array, int size)
   return numWrit;
 }
 
+//print array helper function
 void printArray1(long * arr, int size, int nsort)
 {
   int i;
@@ -45,6 +48,7 @@ void printArray1(long * arr, int size, int nsort)
   fprintf(stdout, "\n");
 }
 
+// shell sort list
 void Array_Shellsort(long *array, int size, double *n_comp)
 {
   if (size == 0)
@@ -53,22 +57,31 @@ void Array_Shellsort(long *array, int size, double *n_comp)
     return;
   }
   int seq_size;
+  //get sequence to shell sort by
   long * sortSeq = Generate_2p3q_Seq(size, &seq_size);
+  if (sortSeq == NULL)
+  {
+    *n_comp = 0;
+    return;
+  }
   double comps = 0;
   //printArray1(array, size, size);
 
   int i;
-  for (i = seq_size - 1; i >= 0; i--) //iterate through k= sort numbers from sortSeq
+  //iterate through k= sort numbers from sortSeq
+  for (i = seq_size - 1; i >= 0; i--)
   {
     long nsort = sortSeq[i];
     int j;
-    for (j = 0; j < nsort; j++) //iterate through sub arrays
+    //iterate through sub arrays
+    for (j = 0; j < nsort; j++)
     {
       int endInd = size/nsort;
       if (j + nsort*endInd >= size) endInd--;
       int k;
 
-      for (k = j+nsort*endInd; k > j; k -= nsort) // get smallest item in subarray to front
+      // get smallest item in subarray to front
+      for (k = j+nsort*endInd; k > j; k -= nsort)
       {
         comps++;
         if (array[k] < array[k - nsort])
@@ -79,7 +92,8 @@ void Array_Shellsort(long *array, int size, double *n_comp)
         }
       }
 
-      for (k = j+nsort*2; k <= j+nsort*endInd; k+=nsort) // sort rest of subarray
+      // insertion sort on rest of subarray
+      for (k = j+nsort*2; k <= j+nsort*endInd; k+=nsort)
       {
         int d;
         for (d = k; d > j; d-=nsort)
