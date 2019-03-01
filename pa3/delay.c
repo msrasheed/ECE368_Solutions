@@ -1,5 +1,6 @@
 #include "delay.h"
 
+//loads all data in from input file and creates tree
 Node * load_tree(FILE * infptr, double * r, double * rd)
 {
     double c;
@@ -9,12 +10,6 @@ Node * load_tree(FILE * infptr, double * r, double * rd)
     int firstChar;
     Node * leaf;
     ListNode * head = NULL;
-
-    // fscanf(infptr, "%d(%le)\n", &firstChar, &cap);
-    // leaf = create_leaf(firstChar, cap);
-    // if (leaf == NULL) return NULL;
-    // head = create_ListNode(leaf);
-    // if (head == NULL) return NULL;
 
     firstChar = fgetc(infptr);
 
@@ -51,6 +46,7 @@ Node * load_tree(FILE * infptr, double * r, double * rd)
     return leaf;
 }
 
+//create leaf node
 Node * create_leaf(int id, double cap)
 {
     Node * tn = malloc(sizeof(Node));
@@ -65,6 +61,7 @@ Node * create_leaf(int id, double cap)
     return tn;
 }
 
+//free all memory for tree
 void destroy_tree(Node * tree)
 {
     if (tree == NULL) return;
@@ -73,6 +70,7 @@ void destroy_tree(Node * tree)
     free(tree);
 }
 
+//create list node, used to create tree from postorder
 ListNode * create_ListNode(Node * tn)
 {
     ListNode * ln = malloc(sizeof(ListNode));
@@ -85,12 +83,16 @@ ListNode * create_ListNode(Node * tn)
     return ln;
 }
 
+//inserts listnode to front of list, kind of like stack
 ListNode * insert_list(ListNode * head, ListNode * ins)
 {
     ins->next = head;
     return ins;
 }
 
+//merges first two nodes from linked list
+//calculates total capacitances at the two children nodes
+//the capacitances are propgated up for faster caculation in the second pass through for the delays
 ListNode * merge_nodes(ListNode * head, double leftLen, double rightLen, double c)
 {
     ListNode * right = head;
@@ -120,6 +122,7 @@ ListNode * merge_nodes(ListNode * head, double leftLen, double rightLen, double 
     return head;
 }
 
+//fuction used to print out the first input file
 void preorder_traversal(FILE * out, Node * tree)
 {
     if (tree->left == NULL)
@@ -238,6 +241,9 @@ void preorder_delays(FILE * out, Node * tree, double rd, double r)
     return;
 }
 
+
+//function used to calculate all the time delays for the leaf nodes in O(n)
+//does this by adding up all the contributions from one of the branches and passing that to the other branch.
 void preorder_delays2_helper(FILE * out, Node * tree, double r, double sum, double rollRes)
 {
     if (tree->left == NULL)
@@ -257,6 +263,7 @@ void preorder_delays2_helper(FILE * out, Node * tree, double r, double sum, doub
     preorder_delays2_helper(out, tree->right, r, sendSumRight, sendResRight);
 }
 
+//just a simpler delay printing function to call
 void preorder_delays2(FILE * out, Node * tree, double rd, double r)
 {
     preorder_delays2_helper(out, tree, r, 0, rd);
