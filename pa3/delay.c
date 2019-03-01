@@ -7,11 +7,14 @@ Node * load_tree(FILE * infptr, double * r, double * rd)
 
     double len1, len2, cap;
     int firstChar;
-    fscanf(infptr, "%d(%le)\n", &firstChar, &cap);
-    Node * leaf = create_leaf(firstChar, cap);
-    if (leaf == NULL) return NULL;
-    ListNode * head = create_ListNode(leaf);
-    if (head == NULL) return NULL;
+    Node * leaf;
+    ListNode * head;
+
+    // fscanf(infptr, "%d(%le)\n", &firstChar, &cap);
+    // leaf = create_leaf(firstChar, cap);
+    // if (leaf == NULL) return NULL;
+    // head = create_ListNode(leaf);
+    // if (head == NULL) return NULL;
 
     firstChar = fgetc(infptr);
 
