@@ -15,7 +15,8 @@ int main(int argc, char ** argv)
         fprintf(stderr, "Input file doesn't exist\n");
         return EXIT_FAILURE;
     }
-    Node * tree = load_tree(inptr);
+    double r, rd;
+    Node * tree = load_tree(inptr, &r, &rd);
     fclose(inptr);
 
     FILE * preptr = fopen(argv[2], "w");
@@ -26,6 +27,15 @@ int main(int argc, char ** argv)
     }
     preorder_traversal(preptr, tree);
     fclose(preptr);
+
+    FILE * delptr = fopen(argv[3], "w");
+    if (delptr == NULL)
+    {
+        fprintf(stderr, "Output file 2 doesn't exist or could not be created\n");
+        return EXIT_FAILURE;
+    }
+    preorder_delays(delptr, tree, rd, r);
+    fclose(delptr);
 
     destroy_tree(tree);
     return EXIT_SUCCESS;
