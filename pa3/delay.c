@@ -9,7 +9,9 @@ Node * load_tree(FILE * infptr, double * r, double * rd)
     int firstChar;
     fscanf(infptr, "%d(%le)\n", &firstChar, &cap);
     Node * leaf = create_leaf(firstChar, cap);
+    if (leaf == NULL) return NULL;
     ListNode * head = create_ListNode(leaf);
+    if (head == NULL) return NULL;
 
     firstChar = fgetc(infptr);
 
@@ -19,6 +21,7 @@ Node * load_tree(FILE * infptr, double * r, double * rd)
         {
             fscanf(infptr, "%le %le)\n", &len1, &len2);
             head = merge_nodes(head, len1, len2, c);
+            if (head == NULL) return NULL;
         }
         else
         {
@@ -31,7 +34,9 @@ Node * load_tree(FILE * infptr, double * r, double * rd)
             }
             fscanf(infptr, "%le)\n", &cap);
             leaf = create_leaf(id, cap);
+            if (leaf == NULL) return NULL;
             ListNode * ln = create_ListNode(leaf);
+            if (ln == NULL) return NULL;
             head = insert_list(head, ln);
         }
         firstChar = fgetc(infptr);
@@ -45,10 +50,11 @@ Node * load_tree(FILE * infptr, double * r, double * rd)
 Node * create_leaf(int id, double cap)
 {
     Node * tn = malloc(sizeof(Node));
+    if (tn == NULL) return NULL;
     tn->label = id;
     tn->sinkCap = cap;
     tn->captot = cap;
-    tn->capleft = cap;
+    tn->capleft = 0;
     tn->capright = 0;
     tn->left = NULL;
     tn->right = NULL;
@@ -66,6 +72,10 @@ void destroy_tree(Node * tree)
 ListNode * create_ListNode(Node * tn)
 {
     ListNode * ln = malloc(sizeof(ListNode));
+    if (ln == NULL)
+    {
+        return NULL;
+    }
     ln->node = tn;
     ln->next = NULL;
     return ln;
@@ -84,6 +94,7 @@ ListNode * merge_nodes(ListNode * head, double leftLen, double rightLen, double 
     head = head->next->next;
 
     Node * tn = create_leaf(-1, 0);
+    if (tn == NULL) return NULL;
     tn->left = left->node;
     tn->right = right->node;
     free(right);
@@ -96,10 +107,11 @@ ListNode * merge_nodes(ListNode * head, double leftLen, double rightLen, double 
     tn->right->captot += rightLen * c / 2;
     tn->captot = leftLen * c / 2 + rightLen * c / 2;
 
-    tn->capleft = left->capleft + left->capright + left->captot;
-    tn->capright = right->capleft + right->capright + right->captot;
+    tn->capleft = tn->left->capleft + tn->left->capright + tn->left->captot;
+    tn->capright = tn->right->capleft + tn->right->capright + tn->right->captot;
 
     ListNode * ln = create_ListNode(tn);
+    if (ln == NULL) return NULL;
     head = insert_list(head, ln);
     return head;
 }
@@ -220,4 +232,28 @@ void preorder_delays(FILE * out, Node * tree, double rd, double r)
 {
     preorder_delays_helper(out, tree, tree, rd, r);
     return;
+}
+
+void preorder_delays2_helper(FILE * out, Node * tree, double r, double sum, double rollRes)
+{
+    if (tree->left == NULL)
+    {
+        sum += tree->captot * rollRes * rollRes;
+        double delay = sum / rollRes;
+        fwrite(&tree->label, sizeof(int), 1, out);
+        fwrite(&delay, sizeof(double), 1, out);
+        //fprintf(stdout, "%d %le\n", tree->label, delay);
+        return;
+    }
+    double sendResLeft = rollRes + r * tree->left_len;
+    double sendResRight = rollRes + r * tree->right_len;
+    double sendSumLeft = ((tree->capright + tree->captot) * rollRes * rollRes) + sum;
+    double sendSumRight = ((tree->capleft + tree->captot) * rollRes * rollRes) + sum;
+    preorder_delays2_helper(out, tree->left, r, sendSumLeft, sendResLeft);
+    preorder_delays2_helper(out, tree->right, r, sendSumRight, sendResRight);
+}
+
+void preorder_delays2(FILE * out, Node * tree, double rd, double r)
+{
+    preorder_delays2_helper(out, tree, r, 0, rd);
 }

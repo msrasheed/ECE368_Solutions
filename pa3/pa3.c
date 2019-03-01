@@ -25,7 +25,7 @@ int main(int argc, char ** argv)
         fprintf(stderr, "Output file 1 doesn't exist or could not be created\n");
         return EXIT_FAILURE;
     }
-    preorder_traversal(preptr, tree);
+    if (tree != NULL) preorder_traversal(preptr, tree);
     fclose(preptr);
 
     FILE * delptr = fopen(argv[3], "w");
@@ -34,9 +34,9 @@ int main(int argc, char ** argv)
         fprintf(stderr, "Output file 2 doesn't exist or could not be created\n");
         return EXIT_FAILURE;
     }
-    preorder_delays(delptr, tree, rd, r);
+    if (tree != NULL) preorder_delays2(delptr, tree, rd, r);
     fclose(delptr);
 
-    destroy_tree(tree);
+    if (tree != NULL) destroy_tree(tree);
     return EXIT_SUCCESS;
 }

@@ -32,3 +32,4 @@ void preorder_traversal(FILE * out, Node * tree);
 
 double calc_delay(int label, Node * tree, double rd, double r);
 void preorder_delays(FILE * out, Node * tree, double rd, double r);
+void preorder_delays2(FILE * out, Node * tree, double rd, double r);
