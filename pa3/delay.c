@@ -3,12 +3,12 @@
 Node * load_tree(FILE * infptr, double * r, double * rd)
 {
     double c;
-    fscanf(infptr, "%le %le %le\n", rd, r, &c);
+    if (!feof(infptr)) fscanf(infptr, "%le %le %le\n", rd, r, &c);
 
     double len1, len2, cap;
     int firstChar;
     Node * leaf;
-    ListNode * head;
+    ListNode * head = NULL;
 
     // fscanf(infptr, "%d(%le)\n", &firstChar, &cap);
     // leaf = create_leaf(firstChar, cap);
@@ -45,6 +45,7 @@ Node * load_tree(FILE * infptr, double * r, double * rd)
         firstChar = fgetc(infptr);
     }
 
+    if (head == NULL) return NULL;
     leaf = head->node;
     free(head);
     return leaf;
