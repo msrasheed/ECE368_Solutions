@@ -63,5 +63,11 @@ test6: $(TARGET)
 	diff woods.code code/woods.code
 	diff woods.hbt compressed/woods.hbt
 
+testa: $(TARGET)
+	./$(TARGET) original/a a.count a.tree a.code a.hbt
+
+teste: $(TARGET)
+	./$(TARGET) original/empty empty.count empty.tree empty.code empty.hbt
+
 clean:
 	rm -f $(OBJS) $(TARGET) *.count *.tree *.code *.hbt *.log *.bin

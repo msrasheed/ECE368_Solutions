@@ -21,28 +21,37 @@ int main(int argc, char * * argv)
 		fprintf(stderr, "Count file doesn't exit\n");
 		return EXIT_FAILURE;
 	}
+
+	//count number of chars in file
 	long * cnts = countChars(infptr);
+
+	//write to output file
 	fwrite(cnts, NUM_ASCII_CHARS, sizeof(long), cntptr);
 	fclose(cntptr);
 
-
+	//create list from counts of chars, returns head and tail
 	Listnode ** hdtl = createList(cnts);
 	free(cnts);
+
+	//create tree
 	Treenode * tree = NULL;
 	if (hdtl[0] != NULL)
 	{
 		tree = createTree(hdtl);
 	}
+
 	FILE * treeptr = fopen(argv[3], "w");
 	if (treeptr == NULL)
 	{
 		fprintf(stderr, "Tree file doesn't exit\n");
 		return EXIT_FAILURE;
 	}
+
+	//write tree in pre order traversal
 	preOrderTraversal(tree, treeptr);
 	fclose(treeptr);
 
-	
+
 	FILE * codeptr = fopen(argv[4], "w");
 	if (codeptr == NULL)
 	{

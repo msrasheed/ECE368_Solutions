@@ -56,7 +56,7 @@ Listnode ** insertNode(Listnode ** hdtl, Listnode * nd)
 		tail->next = NULL;
 		return hdtl;
 	}
-	else 
+	else
 	{
 		prev->next = nd;
 		nd->next = curr;
@@ -107,7 +107,7 @@ Listnode ** mergeNodes(Listnode ** hdtl)
 	hdtl[0] = nh;
 	if (hdtl[0] != NULL)
 	{
-		return insertNode(hdtl, ln);	
+		return insertNode(hdtl, ln);
 	}
 	else
 	{
@@ -209,6 +209,13 @@ void destroyTree(Treenode * tn)
 void createCodeBook(int ** codebook, int * letToCode, int * temp, Treenode * tree, FILE * out)
 {
 	int codeInd = 0;
+	if (tree->left == NULL && tree->right == NULL)
+	{
+		codebook[0] = malloc(sizeof(int) * 1);
+		codebook[0][0] = -1;
+		printCode(codebook[0], 0, tree->val, out);
+		return;
+	}
 	createCodeBookHelper(codebook, letToCode, temp, tree->left, out, &codeInd, 0, 0);
 	createCodeBookHelper(codebook, letToCode, temp, tree->right, out, &codeInd, 0, 1);
 }
@@ -276,7 +283,7 @@ void writeTree(FILE * out, Treenode * tree, char * byte, char * byteLoc)
 		writeTree(out, tree->right, byte, byteLoc);
 		return;
 	}
-	else 
+	else
 	{
 		writeBit(out, 0x1, byte, byteLoc);
 		writeChar(out, tree->val, byte, byteLoc);
