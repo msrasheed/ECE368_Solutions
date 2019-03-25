@@ -8,9 +8,9 @@ typedef struct tree_node
     int bal;
 } Node;
 
-Node * parseInput(FILE * in);
+Node * buildTree(FILE * in, int * form);
 Node * create_node(int key);
-Node * insertNode(Node * head, int key);
+Node * insertNode(Node * head, int key, int * form);
 Node * deleteNode(Node * node, int key);
 Node * getImmPredecessor(Node * node, int * nkey);
 
@@ -19,3 +19,6 @@ Node * leftRotation(Node * node);
 Node * rightRotation(Node * node);
 
 void preOrderTraversal(Node * node, FILE * out);
+
+void destroyTree(Node * node);
+void evaluateTree(FILE * inptr, int * form, int * bst, int * baltree);
