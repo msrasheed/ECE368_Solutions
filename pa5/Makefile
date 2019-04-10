@@ -25,11 +25,11 @@ testmemorym: $(TARGET)
 testall: test1 test2 test3 test4 test5 test6 test7
 
 qrandom: $(TARGET)
-	./generate 1000000 random.b
+	./generate 100000000 random.b
 	./$(TARGET) -q random.b randomOut.b
 
 mrandom: $(TARGET)
-	./generate 1000000 random.b
+	./generate 100000000 random.b
 	./$(TARGET) -m random.b randomOut.b
 
 clean:

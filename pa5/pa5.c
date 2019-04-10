@@ -22,7 +22,7 @@ int main (int argc, char ** argv)
 
 
     fprintf(stdout, "sorted?: %d\n", checkSorted(arr, size));
-    printArray(arr, size);
+    //printArray(arr, size);
 
     if (argv[1][1] == 'q')
     {
@@ -33,7 +33,7 @@ int main (int argc, char ** argv)
         Merge_Sort(arr, size);
     }
 
-    printArray(arr, size);
+    //printArray(arr, size);
     fprintf(stdout, "sorted?: %d\n", checkSorted(arr, size));
 
     Save_From_Array(argv[3], arr, size);
